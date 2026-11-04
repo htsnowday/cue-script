@@ -1,0 +1,370 @@
+/* ------------------------------------------------------------------
+   Cue Script — "Playhouse & Parchment"
+   Ink on rag paper by day; a candle-lit tiring-house by night.
+   ------------------------------------------------------------------ */
+
+:root {
+	color-scheme: light;
+
+	/* Paper & ink */
+	--desk: #ddcfb1;
+	--paper: #f5ecd7;
+	--paper-2: #eee2c5;
+	--paper-3: #e4d3ad;
+	--paper-edge: #cdb586;
+	--ink: #2b2017;
+	--ink-soft: #5b4936;
+	--ink-faint: #8b765b;
+	--ink-ghost: rgba(43, 32, 23, 0.12);
+	--rubric: #962c1d; /* red ink: cues, initials */
+	--rubric-soft: rgba(150, 44, 29, 0.1);
+	--gold: #9c7629;
+	--rule: rgba(43, 32, 23, 0.22);
+	--rule-strong: rgba(43, 32, 23, 0.55);
+	--smudge: rgba(43, 32, 23, 0.16);
+	--focus: #1f5f8b;
+
+	--shadow-sm: 0 1px 1px rgba(70, 45, 15, 0.08), 0 2px 6px rgba(70, 45, 15, 0.08);
+	--shadow-md: 0 2px 4px rgba(70, 45, 15, 0.1), 0 12px 32px -8px rgba(70, 45, 15, 0.22);
+	--shadow-lg: 0 4px 8px rgba(70, 45, 15, 0.12), 0 30px 60px -20px rgba(70, 45, 15, 0.4);
+
+	--glow: transparent;
+	--grain-opacity: 0.5;
+	--grain-blend: multiply;
+
+	/* Type */
+	--font-body: 'EB Garamond', 'Garamond', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+	--font-display: 'IM Fell English', 'EB Garamond', Georgia, serif;
+	--font-sc: 'IM Fell English SC', 'EB Garamond', Georgia, serif;
+
+	--radius: 3px;
+	--measure: 40rem;
+	--ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--desk: #0f0b07;
+		--paper: #1b140e;
+		--paper-2: #221911;
+		--paper-3: #2c2117;
+		--paper-edge: #3d2e1f;
+		--ink: #eadcc0;
+		--ink-soft: #c4ad88;
+		--ink-faint: #8f7a5b;
+		--ink-ghost: rgba(234, 220, 192, 0.1);
+		--rubric: #e48a68;
+		--rubric-soft: rgba(228, 138, 104, 0.12);
+		--gold: #d9ab52;
+		--rule: rgba(234, 220, 192, 0.18);
+		--rule-strong: rgba(234, 220, 192, 0.45);
+		--smudge: rgba(234, 220, 192, 0.14);
+		--focus: #8cc4ef;
+		--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+		--shadow-md: 0 2px 6px rgba(0, 0, 0, 0.45), 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+		--shadow-lg: 0 4px 10px rgba(0, 0, 0, 0.5), 0 40px 80px -20px rgba(0, 0, 0, 0.75);
+		--glow: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(255, 170, 70, 0.13), transparent 70%);
+		--grain-opacity: 0.22;
+		--grain-blend: screen;
+	}
+}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--desk: #0f0b07;
+	--paper: #1b140e;
+	--paper-2: #221911;
+	--paper-3: #2c2117;
+	--paper-edge: #3d2e1f;
+	--ink: #eadcc0;
+	--ink-soft: #c4ad88;
+	--ink-faint: #8f7a5b;
+	--ink-ghost: rgba(234, 220, 192, 0.1);
+	--rubric: #e48a68;
+	--rubric-soft: rgba(228, 138, 104, 0.12);
+	--gold: #d9ab52;
+	--rule: rgba(234, 220, 192, 0.18);
+	--rule-strong: rgba(234, 220, 192, 0.45);
+	--smudge: rgba(234, 220, 192, 0.14);
+	--focus: #8cc4ef;
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--shadow-md: 0 2px 6px rgba(0, 0, 0, 0.45), 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+	--shadow-lg: 0 4px 10px rgba(0, 0, 0, 0.5), 0 40px 80px -20px rgba(0, 0, 0, 0.75);
+	--glow: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(255, 170, 70, 0.13), transparent 70%);
+	--grain-opacity: 0.22;
+	--grain-blend: screen;
+}
+
+/* ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-top: 7rem;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	background-color: var(--desk);
+	background-image: var(--glow);
+	background-repeat: no-repeat;
+	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1.1875rem;
+	line-height: 1.55;
+	font-feature-settings: 'kern', 'liga', 'onum';
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	transition:
+		background-color 0.4s var(--ease),
+		color 0.4s var(--ease);
+}
+
+/* Paper grain over everything (pointer-transparent). */
+body::before {
+	content: '';
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 100;
+	opacity: var(--grain-opacity);
+	mix-blend-mode: var(--grain-blend);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+	background: var(--rubric-soft);
+	color: inherit;
+}
+
+a {
+	color: inherit;
+	text-decoration-color: var(--rule-strong);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+}
+a:hover {
+	color: var(--rubric);
+	text-decoration-color: currentColor;
+}
+
+:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
+	font-weight: 400;
+	line-height: 1.1;
+	margin: 0;
+	letter-spacing: 0.005em;
+}
+
+p {
+	margin: 0 0 1em;
+}
+
+button,
+input,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+}
+
+.sc {
+	font-family: var(--font-sc);
+	letter-spacing: 0.04em;
+}
+
+.visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* A sheet of paper. */
+.sheet {
+	background: var(--paper);
+	box-shadow: var(--shadow-md);
+	border-radius: var(--radius);
+	position: relative;
+}
+.sheet::after {
+	/* faint foxing at the edges */
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	border-radius: inherit;
+	box-shadow: inset 0 0 60px rgba(150, 110, 50, 0.13);
+}
+:root[data-theme='dark'] .sheet::after {
+	box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+}
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) .sheet::after {
+		box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+	}
+}
+
+/* Buttons: small, inky, letterpress-y */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45em;
+	padding: 0.4em 0.85em;
+	border: 1px solid var(--rule-strong);
+	border-radius: 999px;
+	background: var(--paper);
+	font-family: var(--font-sc);
+	font-size: 0.95rem;
+	letter-spacing: 0.04em;
+	line-height: 1.2;
+	white-space: nowrap;
+	transition:
+		background 0.15s,
+		color 0.15s,
+		border-color 0.15s,
+		transform 0.15s var(--ease);
+}
+.btn:hover {
+	border-color: var(--ink);
+	background: var(--paper-2);
+}
+.btn:active {
+	transform: translateY(1px);
+}
+.btn[aria-pressed='true'],
+.btn.primary {
+	background: var(--ink);
+	border-color: var(--ink);
+	color: var(--paper);
+}
+.btn svg {
+	width: 1.05em;
+	height: 1.05em;
+	flex: none;
+}
+
+.icon-btn {
+	display: inline-grid;
+	place-items: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 999px;
+	border: 1px solid transparent;
+	background: transparent;
+	color: var(--ink-soft);
+	transition:
+		background 0.15s,
+		color 0.15s;
+}
+.icon-btn:hover {
+	background: var(--ink-ghost);
+	color: var(--ink);
+}
+.icon-btn svg {
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+/* Segmented control */
+.segmented {
+	display: inline-flex;
+	border: 1px solid var(--rule-strong);
+	border-radius: 999px;
+	padding: 2px;
+	background: var(--paper);
+}
+.segmented button {
+	border: 0;
+	background: transparent;
+	padding: 0.32em 0.85em;
+	border-radius: 999px;
+	font-family: var(--font-sc);
+	font-size: 0.95rem;
+	letter-spacing: 0.04em;
+	color: var(--ink-soft);
+	transition:
+		background 0.2s var(--ease),
+		color 0.2s;
+}
+.segmented button:hover {
+	color: var(--ink);
+}
+.segmented button[aria-pressed='true'] {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* ------------------------------------------------------------------ */
+/* Print: clean sides, black ink on white.                            */
+/* ------------------------------------------------------------------ */
+@media print {
+	:root,
+	:root[data-theme='dark'] {
+		color-scheme: light;
+		--desk: #fff;
+		--paper: #fff;
+		--paper-2: #fff;
+		--ink: #000;
+		--ink-soft: #222;
+		--ink-faint: #555;
+		--rubric: #000;
+		--rule: #999;
+		--rule-strong: #555;
+		--glow: none;
+	}
+	body {
+		font-size: 11.5pt;
+		background: #fff;
+	}
+	body::before,
+	.no-print {
+		display: none !important;
+	}
+	.sheet {
+		box-shadow: none !important;
+	}
+	.sheet::after {
+		display: none;
+	}
+	a {
+		text-decoration: none;
+	}
+	@page {
+		margin: 16mm 18mm;
+	}
+}
