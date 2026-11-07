@@ -63,6 +63,20 @@
 	</ol>
 </section>
 
+<section class="byo" aria-labelledby="byo-title">
+	<a class="byo-card sheet" href={resolve('/my')}>
+		<span class="byo-text">
+			<span class="sc byo-kicker">New</span>
+			<span id="byo-title" class="byo-title">Bring your own script</span>
+			<span class="byo-blurb">
+				Upload your production’s cut, a classic, or a new play (Word, PDF or text) and get a cue script for every
+				part. Then send it to your whole cast.
+			</span>
+		</span>
+		<span class="byo-go" aria-hidden="true">→</span>
+	</a>
+</section>
+
 {#each shelves as shelf (shelf.genre)}
 	<section class="shelf" aria-labelledby="shelf-{shelf.genre}">
 		<header>
@@ -200,6 +214,61 @@
 		font-size: 1.05rem;
 	}
 
+	.byo {
+		max-width: 64rem;
+		margin: 0 auto;
+		padding: 1rem 1.25rem 0;
+	}
+	.byo-card {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 1.4rem 1.75rem;
+		text-decoration: none;
+		color: var(--ink);
+		border-left: 3px solid var(--rubric);
+		transition:
+			transform 0.3s var(--ease),
+			box-shadow 0.3s var(--ease);
+	}
+	.byo-card:hover {
+		color: var(--ink);
+		transform: translateY(-3px);
+		box-shadow: var(--shadow-lg);
+	}
+	.byo-text {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+	.byo-kicker {
+		color: var(--rubric);
+		letter-spacing: 0.18em;
+		text-transform: lowercase;
+		font-size: 0.9rem;
+	}
+	.byo-title {
+		font-family: var(--font-display);
+		font-size: 1.9rem;
+		line-height: 1.1;
+		margin: 0.1rem 0 0.35rem;
+	}
+	.byo-card:hover .byo-title {
+		color: var(--rubric);
+	}
+	.byo-blurb {
+		color: var(--ink-soft);
+		font-size: 1.05rem;
+	}
+	.byo-go {
+		font-family: var(--font-display);
+		font-size: 2.4rem;
+		color: var(--rubric);
+		transition: transform 0.3s var(--ease);
+	}
+	.byo-card:hover .byo-go {
+		transform: translateX(6px);
+	}
 	.shelf {
 		max-width: 76rem;
 		margin: 0 auto;

@@ -15,6 +15,10 @@ helps you learn it.
   read each cue aloud (each scene partner gets their own voice).
 - **Print**: clean, ink-only sides for the rehearsal room.
 - Daylight and candlelight themes, keyboard shortcuts, and a phone-friendly layout.
+- **Your scripts**: bring your own play (Word, PDF, plain text or TEI XML),
+  check the cast, and get cue scripts for every part. A director can send the
+  cast a small `.cuescript` production file so everyone rehearses from the same
+  version. Everything stays in the browser.
 
 | | |
 | --- | --- |
@@ -34,7 +38,7 @@ Other scripts:
 | command          | what it does                                                      |
 | ---------------- | ----------------------------------------------------------------- |
 | `npm run data`   | regenerate `src/lib/data/` from the TEI texts (pinned commit)     |
-| `npm test`       | unit tests for the cue-script builder                             |
+| `npm test`       | unit tests: cue builder, script/Word/TEI parsers, corrections     |
 | `npm run check`  | type-check                                                        |
 | `npm run build`  | prerender the whole site (≈1,500 pages) to `build/`               |
 
@@ -61,16 +65,39 @@ TEI XML ──► source adapter ──► normalized Play JSON ──► buildP
 - **Routes**: `/` (search and shelves), `/[play]` (dramatis personae),
   `/[play]/[character]` (the cue script). All pages are prerendered.
 
-### Future: other script sources and uploads
+### Your scripts (uploads)
 
-This is the reason for the adapter / normalized-format split. To add a source:
+![Checking the cast of an uploaded script](docs/screenshots/upload-review.jpg)
 
-1. Write `src/lib/sources/<name>.ts` that returns a `Play`. Possible sources:
-   another edition's TEI, a plain-text script ("NAME. line…"), or Fountain.
-2. For **uploads**, run the adapter in the browser on the user's file. Then pass
-   the resulting `Play` to `buildPart()` and render with the existing
-   components, with no server needed. The user's play could be stored in
-   IndexedDB and get a client-side route such as `/my/<id>/<character>`.
+```
+.txt / paste ─► linesFromText ─┐
+.docx ───────► linesFromDocx ──┼─► ScriptLine[] ─► parseScript ─┐
+.pdf ────────► linesFromPdf ───┘                                ├─► Play ─► applyCorrections ─► Play
+.xml (TEI) ──────────────────────► parseFolgerTei ──────────────┘          (cast review)
+```
+
+- **`src/lib/sources/script.ts`** detects the speaker layout: inline
+  (`HAMLET. To be…`, `Ham. To be…`, `Hamlet: …`) or names on their own line. It
+  also finds acts, scenes and prologues, stage directions (italics, brackets,
+  `Enter`/`Exit`), the dramatis personae (used to expand abbreviations such as
+  `Ham.` → Hamlet), and Project Gutenberg headers.
+- **`docx.ts`** reads paragraph styles ("Character", "Dialogue",
+  "Parenthetical"…), italics, centring and capitals, and turns two-column
+  name | speech tables into speeches. **`pdf.ts`** (pdf.js, loaded only when
+  needed) rebuilds lines from text positions, re-joins wrapped prose, and drops
+  page numbers, running headers and margin line numbers.
+- **`src/lib/play/corrections.ts`**: the cast review never edits the parsed
+  play. It stores corrections (rename, merge, "not a character", title) that
+  are re-applied on top. A future **full script editor** can add new correction
+  kinds (split a speech, move a line, add a scene break) without touching the
+  parsers or the views.
+- **`src/lib/library.ts`** keeps scripts in IndexedDB (in memory if the browser
+  forbids storage). It also reads and writes `.cuescript` production files,
+  which hold the source, corrections and finished play. Opening a newer file
+  with the same id updates the copy in place.
+- Routes: `/my` (library), `/my/new`, `/my/edit?id=`, `/my/play?id=`,
+  `/my/part?id=&c=`. They render client-side (`ssr = false`), so the site
+  stays fully static.
 
 ## Credits & licence of the texts
 

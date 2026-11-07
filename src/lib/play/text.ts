@@ -18,7 +18,7 @@ export function uniqueSlug(base: string, used: Set<string>): string {
 }
 
 const ROMAN = /^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$/;
-const SMALL = new Set(['of', 'the', 'and', 'to', 'in', 'a', 'de', 'du', 'la', 'le', 'von']);
+const SMALL = new Set(['of', 'the', 'and', 'to', 'in', 'on', 'at', 'by', 'for', 'with', 'from', 'upon', 'a', 'an', 'de', 'du', 'la', 'le', 'von']);
 
 /** "SHEPHERD’S SON" → "Shepherd’s Son", "KING HENRY VI" → "King Henry VI". */
 export function titleCaseSpeaker(s: string): string {

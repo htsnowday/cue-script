@@ -95,7 +95,10 @@
 				<kbd>/</kbd>
 			</button>
 		{/if}
-		<a class="nav-link" href={resolve('/about')}>About</a>
+		<a class="nav-link" href={resolve('/my')} aria-current={page.route.id?.startsWith('/my') ? 'page' : undefined}
+			><span class="hide-sm">Your scripts</span><span class="show-sm">Scripts</span></a
+		>
+		<a class="nav-link hide-sm" href={resolve('/about')}>About</a>
 		<button
 			class="icon-btn"
 			type="button"
@@ -208,6 +211,23 @@
 		text-decoration: none;
 		color: var(--ink-soft);
 		padding: 0.3rem 0.6rem;
+	}
+	.nav-link[aria-current='page'] {
+		color: var(--rubric);
+	}
+	.show-sm {
+		display: none;
+	}
+	@media (max-width: 560px) {
+		.hide-sm {
+			display: none;
+		}
+		.show-sm {
+			display: inline;
+		}
+		.nav-link {
+			padding-inline: 0.3rem;
+		}
 	}
 	.search-btn {
 		display: inline-flex;

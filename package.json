@@ -37,5 +37,9 @@
 		"#lib": "./src/lib/index.js",
 		"#lib/*": "./src/lib/*"
 	},
-	"description": "Cue scripts for every part in Shakespeare, generated from the Folger Shakespeare texts, with rehearsal tools."
+	"description": "Cue scripts for every part in Shakespeare, generated from the Folger Shakespeare texts, with rehearsal tools.",
+	"dependencies": {
+		"fflate": "^0.8.3",
+		"pdfjs-dist": "^6.5.438"
+	}
 }

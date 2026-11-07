@@ -44,10 +44,16 @@
 		any Folger edition.
 	</p>
 
-	<h2>Coming soon</h2>
+	<h2>Your own scripts</h2>
 	<p>
-		Other editions, and your own scripts: upload a cut or an adaptation and get cue scripts for your company’s
-		version.
+		Under <a href={resolve('/my')}>Your scripts</a> you can bring any play: a cut of Shakespeare, another classic,
+		or a new play, as a Word document, PDF, plain text or TEI XML. Cue Script works out who speaks when, lets you
+		check and correct the cast, and makes every part. A director can then send the cast a small
+		<em>.cuescript</em> file so everyone rehearses from the same version.
+	</p>
+	<p>
+		Your scripts are read and stored only in your browser. Nothing is uploaded to a server, so nobody else can
+		see them. That also means they live on one device: to move a script, send yourself its file.
 	</p>
 
 	<p class="back"><a href={resolve('/')}>← Choose a part</a></p>

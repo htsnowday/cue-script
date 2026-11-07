@@ -285,12 +285,11 @@ function collectScenes(body: XElement): Scene[] {
 }
 
 function readSpeech(sp: XElement): Speech {
-	return {
-		kind: 'sp',
-		who: ids(sp.getAttribute('who')),
-		speaker: clean(child(sp, 'speaker')?.textContent),
-		items: speechItems(sp, { song: false })
-	};
+	const speaker = clean(child(sp, 'speaker')?.textContent).replace(/[.:]+$/, '');
+	let who = ids(sp.getAttribute('who'));
+	// Non-Folger TEI may omit @who; derive an id from the printed speaker name.
+	if (!who.length) who = [`spk:${speaker.toUpperCase() || 'UNKNOWN'}`];
+	return { kind: 'sp', who, speaker, items: speechItems(sp, { song: false }) };
 }
 
 /* ------------------------------------------------------------------ */
@@ -390,7 +389,8 @@ function readCharacters(
 		const topLabel = [...a.labels.entries()].sort((x, y) => y[1] - x[1])[0]?.[0];
 		const bare = id.replace(new RegExp(`_${code}$`), '');
 		const anonymous = /^[A-Z]+\.(\d|X)/.test(bare) || /^[A-Z]+$/.test(bare);
-		const minor = !!p?.group || anonymous || !p;
+		const derived = id.startsWith('spk:');
+		const minor = !!p?.group || anonymous || (!p && !derived);
 		// Group members often carry the whole cast-group blurb as a name
 		// ("Lords, Ladies, Attendants, …"); the printed speech prefix is better.
 		const usable = p?.name && !/,/.test(p.name) && p.name.length <= 40 && /^\P{Ll}/u.test(p.name);
