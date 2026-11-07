@@ -46,3 +46,6 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # ~3,000 prerendered files; the first sync can outlast the 10-minute default.
+          timeout: 1800000
